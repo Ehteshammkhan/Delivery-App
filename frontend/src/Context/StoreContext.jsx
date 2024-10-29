@@ -6,7 +6,7 @@ export const StoreContext = createContext(null);
 const StoreContextProvider = (props) => {
 
     const [cartItems, setCartItems] = useState({})
-    const [token, setToken] = useState({})
+    const [token, setToken] = useState("")
 
     const url = 'http://localhost:4000';
 
@@ -22,7 +22,7 @@ const StoreContextProvider = (props) => {
             if (prev[itemId] > 1) {
                 return { ...prev, [itemId]: prev[itemId] - 1 };
             } else {
-                const { [itemId]: _, ...rest } = prev; // Remove the item when count reaches 0
+                const { [itemId]: _, ...rest } = prev;
                 return rest;
             }
         });
@@ -39,6 +39,13 @@ const StoreContextProvider = (props) => {
         }
         return totalAmount;
     }
+
+    useEffect(() => {
+        const storedToken = localStorage.getItem("token");
+        if (storedToken) {
+            setToken(storedToken);
+        }
+    }, []);
 
     const contextValue = {
         food_list,

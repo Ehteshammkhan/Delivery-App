@@ -27,11 +27,12 @@ const loginUser = async (req, res) => {
       });
     }
 
-    const token = createUserToken(user._id, { expiresIn: "1h" });
+    const userToken = createUserToken(user._id, { expiresIn: "1d" });
 
     await res.status(200).json({
       success: true,
-      token,
+      userToken,
+      message: "Login successfully",
     });
   } catch (error) {
     console.error("Login error:", error);
